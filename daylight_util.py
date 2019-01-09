@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 _FORMAT = '%I:%M:%S %p'
-_URL = 'https://api.sunrise-sunset.org/json?lat=52.150492&lng=-0.545676&date={}'
+_URL = 'https://api.sunrise-sunset.org/json?lat={}&lng={}&date={}'
 
 
 def _get_json(request):
@@ -13,8 +13,10 @@ def _get_json(request):
 
 
 def get_curfew():
+    my_lat = 0.0  # Update Lat/Lon as required
+    my_lon = 0.0
     today = datetime.today()
-    dates = _get_json(_URL.format(today.isoformat()))
+    dates = _get_json(_URL.format(my_lat, my_lon, today.isoformat()))
 
     lock = datetime.strptime(dates[3], _FORMAT)
     unlock = datetime.strptime(dates[2], _FORMAT)
