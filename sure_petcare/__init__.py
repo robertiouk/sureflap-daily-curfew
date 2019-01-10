@@ -656,7 +656,7 @@ class SurePetFlapAPI(object):
         try:
             with open( self.cache_file, 'rb' ) as f:
                 self.cache = pickle.load( f )
-        except (pickle.PickleError, OSError,):
+        except (pickle.PickleError, OSError, IOError,):
             self.cache = {'AuthToken': None,
                           'households': None,
                           'default_household': self._init_default_household,
