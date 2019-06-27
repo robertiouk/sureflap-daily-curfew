@@ -656,7 +656,7 @@ class SurePetFlapAPI(object):
         try:
             with open( self.cache_file, 'rb' ) as f:
                 self.cache = pickle.load( f )
-        except (pickle.PickleError, OSError,):
+        except (pickle.PickleError, OSError, IOError,):
             self.cache = {'AuthToken': None,
                           'households': None,
                           'default_household': self._init_default_household,
@@ -815,10 +815,10 @@ class SurePetFlapMixin( object ):
             unlock_time = "00:00"
 
         url = _URL_CONTROL % flap_id
-        data = {"curfew": {"enabled": enable,
+        data = {"curfew": [{"enabled": enable,
                             "lock_time": datetime.strftime(lock_time, _TIME_FORMAT),
                             "unlock_time": datetime.strftime(unlock_time, _TIME_FORMAT)
-                            }}
+                            }]}
         return self._set_data(url, data)
 
 class SurePetFlap( SurePetFlapMixin, SurePetFlapAPI ):
